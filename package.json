@@ -1,0 +1,29 @@
+{
+  "name": "simple-serverless",
+  "version": "0.0.1",
+  "description": "a very simple server less for some cron job and push something",
+  "main": "index.js",
+  "private": true,
+  "workspaces": [
+    "packages"
+  ],
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/yeliex/simple-serverless.git"
+  },
+  "keywords": [
+    "server-less"
+  ],
+  "author": "yeliex <yeliex@yeliex.com>",
+  "license": "GPL-3.0-or-later",
+  "bugs": {
+    "url": "https://github.com/yeliex/simple-serverless/issues"
+  },
+  "homepage": "https://github.com/yeliex/simple-serverless#readme",
+  "devDependencies": {
+    "lerna": "^3.22.1"
+  }
+}

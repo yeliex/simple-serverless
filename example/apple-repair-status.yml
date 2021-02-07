@@ -1,0 +1,38 @@
+name: apple repair status
+on:
+  - plugin: cron # plugin-trigger-cron
+    options:
+      cron: 0 0/5 * * * ? *
+jobs:
+  - plugin: fetch # plugin-runner-fetch
+    options:
+      url: https://mysupport.apple.com/repairs/details/:repairId
+      method: GET
+      params:
+        repairId: env.REPAIR_ID
+      query:
+        serialNumber: env.SERIAL_NUMBER
+        cid: acs::repa_1
+  - name: changed
+    description: detect if changed
+    plugin: diff # plugin-runner-diff
+  - name: result_text
+    plugin: lambda # plugin-runner-lambda
+    options:
+      body: |
+        const { changed } = ctx;
+
+        if(!changed || !Object.keys(changed)) {
+          return '';
+        }
+
+        return JSON.stringify(changed);
+  - on: ctx.changed
+    plugin: fetch
+    options:
+      url: https://sc.ftqq.com/:token.send
+      params:
+        token: env.PUSH_TOKEN
+      body:
+        text: Apple 维修状态变更
+        desp: `维修单${env.REPAIR_ID}状态变更 ${ctx.result_text}`
